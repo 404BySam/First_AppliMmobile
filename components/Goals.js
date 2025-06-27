@@ -11,6 +11,7 @@ import {
 import { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { FlatList } from "react-native";
+import GoalsList from "./GoalsList";
 
 export function Goals() {
   const [goals, setGoals] = useState([
@@ -28,7 +29,6 @@ export function Goals() {
 
   // Etat pour stocker ce que l'utilisateur tape dans l'input
   const [input, setInput] = useState("");
-  const [modalVisible, setModalVisible] = useState(false);
 
   // Fonction pour ajouter un objectif
   function ajouterGoal() {
@@ -39,97 +39,11 @@ export function Goals() {
       setInput("");
     }
   }
-  function suppGoal(indexASupprimer) {
-    const nouveauxObjectifs = [];
-    for (let i = 0; i < goals.length; i++) {
-      if (i !== indexASupprimer) {
-        nouveauxObjectifs.push(goals[i]);
-      }
-    }
-    setGoals(nouveauxObjectifs);
-  }
-
-  // Fonction qui affiche chaque ligne (impératif, pas de fonction fléchée)
-  function afficherLigne({ item, index }) {
-    return (
-      <View style={styles.ligne}>
-        <Text style={styles.text}>• {item}</Text>
-        <TouchableOpacity
-          onPress={function () {
-            suppGoal(index);
-          }}
-          style={styles.boutonSupprimer}
-        >
-          <Text style={{ color: "white" }}>Supprimer</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => setModalVisible(true)}
-          style={styles.boutonSupprimer}
-        >
-          <View>
-            <Modal
-              animationType="slide"
-              transparent={true}
-              visible={modalVisible}
-              onRequestClose={() => {
-                Alert.alert("Modal has been closed.");
-                setModalVisible(!modalVisible);
-              }}
-            >
-              <View style={styles.centeredView}>
-                <View style={styles.modalView}>
-                  <Text style={styles.modalText}>
-                    Êtes vous sur de vouloir modifier ?
-                  </Text>
-                  <Pressable
-                    style={[styles.button, styles.buttonClose]}
-                    onPress={() => setModalVisible(!modalVisible)}
-                  >
-                    <Text style={styles.textStyle}>Oui</Text>
-                  </Pressable>
-                  <Pressable
-                    style={[styles.button, styles.buttonClose]}
-                    onPress={() => setModalVisible(!modalVisible)}
-                  >
-                    <Text style={styles.textStyle}>Retour</Text>
-                  </Pressable>
-                </View>
-              </View>
-            </Modal>
-          </View>
-          <Text style={{ color: "blue" }}>Modifier</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  }
-
-  // Fonction pour donner une clé unique à chaque ligne
-  function cleLigne(item, index) {
-    return index.toString();
-  }
 
   return (
     <View style={styles.container}>
       <Text style={styles.titre}>Mes objectifs</Text>
-      <FlatList
-        data={goals}
-        keyExtractor={cleLigne}
-        renderItem={afficherLigne}
-      />
-
-      {/* {goals.map((goal, index) => (
-        <View key={index} style={styles.ligne}>
-          <Text style={styles.text}>• {goal}</Text>
-          <TouchableOpacity
-            onPress={() => suppGoal(index)}
-            style={styles.boutonSupprimer}
-          >
-            <Text onPress={() => suppGoal(index)} style={{ color: "white" }}>
-              Supprimer
-            </Text>
-          </TouchableOpacity>
-        </View>
-      ))} */}
+      <GoalsList data={goals} setGoals={setGoals} />
       <StatusBar style="auto" />
       <View style={styles.row}>
         <TextInput
