@@ -5,6 +5,8 @@ import {
   View,
   Button,
   TouchableOpacity,
+  Modal,
+  Pressable,
 } from "react-native";
 import { useState } from "react";
 import { StatusBar } from "expo-status-bar";
@@ -26,6 +28,7 @@ export function Goals() {
 
   // Etat pour stocker ce que l'utilisateur tape dans l'input
   const [input, setInput] = useState("");
+  const [modalVisible, setModalVisible] = useState(false);
 
   // Fonction pour ajouter un objectif
   function ajouterGoal() {
@@ -58,6 +61,43 @@ export function Goals() {
           style={styles.boutonSupprimer}
         >
           <Text style={{ color: "white" }}>Supprimer</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => setModalVisible(true)}
+          style={styles.boutonSupprimer}
+        >
+          <View>
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={modalVisible}
+              onRequestClose={() => {
+                Alert.alert("Modal has been closed.");
+                setModalVisible(!modalVisible);
+              }}
+            >
+              <View style={styles.centeredView}>
+                <View style={styles.modalView}>
+                  <Text style={styles.modalText}>
+                    Êtes vous sur de vouloir modifier ?
+                  </Text>
+                  <Pressable
+                    style={[styles.button, styles.buttonClose]}
+                    onPress={() => setModalVisible(!modalVisible)}
+                  >
+                    <Text style={styles.textStyle}>Oui</Text>
+                  </Pressable>
+                  <Pressable
+                    style={[styles.button, styles.buttonClose]}
+                    onPress={() => setModalVisible(!modalVisible)}
+                  >
+                    <Text style={styles.textStyle}>Retour</Text>
+                  </Pressable>
+                </View>
+              </View>
+            </Modal>
+          </View>
+          <Text style={{ color: "blue" }}>Modifier</Text>
         </TouchableOpacity>
       </View>
     );
@@ -128,7 +168,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 16,
     marginBottom: 10,
-    width: 340,
+    width: 400,
     shadowColor: "#000", // ombre sur iOS
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
@@ -167,5 +207,49 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginRight: 10,
     elevation: 1,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.4)",
+  },
+  modalView: {
+    backgroundColor: "#ffffff",
+    borderRadius: 20,
+    padding: 30,
+    width: "80%",
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalText: {
+    fontSize: 18,
+    fontWeight: "500",
+    color: "#1c3d5a",
+    marginBottom: 20,
+    textAlign: "center",
+  },
+  color: "#fff",
+  fontWeight: "bold",
+  textAlign: "center",
+  button: {
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 25,
+    marginVertical: 6,
+    elevation: 2,
+  },
+  buttonOpen: {
+    backgroundColor: "#F194FF",
+  },
+  buttonClose: {
+    backgroundColor: "#0077cc",
   },
 });

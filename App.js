@@ -7,9 +7,11 @@ import {
   Button,
   TouchableOpacity,
   ImageBackground,
+  Modal,
+  Pressable,
 } from "react-native";
 import { useState } from "react";
-import { Goals } from "./Goals";
+import { Goals } from "./components/Goals";
 
 const image = {
   uri: "file:///Users/ymas/Documents/DevExo/testProject/assets/backgr.jpg",
@@ -23,6 +25,7 @@ export default function App() {
         <View>
           <Goals />
         </View>
+        <View></View>
       </View>
     </ImageBackground>
   );
