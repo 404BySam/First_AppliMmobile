@@ -53,17 +53,3 @@ cd react-native-discovery
 npm install
 expo start
 ```
-
-      {/* {goals.map((goal, index) => (
-        <View key={index} style={styles.ligne}>
-          <Text style={styles.text}>• {goal}</Text>
-          <TouchableOpacity
-            onPress={() => suppGoal(index)}
-            style={styles.boutonSupprimer}
-          >
-            <Text onPress={() => suppGoal(index)} style={{ color: "white" }}>
-              Supprimer
-            </Text>
-          </TouchableOpacity>
-        </View>
-      ))} */}
